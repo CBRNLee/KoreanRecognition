@@ -1,0 +1,10 @@
+{
+  "name": "korean-recognition-playground",
+  "version": "1.0.0",
+  "private": true,
+  "description": "유치원생을 위한 한글 음성인식과 자연스러운 읽어주기 웹앱",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  }
+}

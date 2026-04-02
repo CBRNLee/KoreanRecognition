@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>말랑말랑 한글 친구</title>
+    <meta
+      name="description"
+      content="유치원생도 쉽게 사용할 수 있는 귀여운 한글 음성인식 웹앱 프로토타입"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <div class="page-glow page-glow-left" aria-hidden="true"></div>
+    <div class="page-glow page-glow-right" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Korean Recognition Playground</p>
+          <h1>말랑말랑 한글 친구</h1>
+          <p class="hero-text">
+            마이크를 누르고 단어나 문장을 말하면 한글로 보여주고, 옆의 소리 버튼으로
+            다시 읽어주는 유치원 맞춤형 음성놀이 화면이에요.
+          </p>
+
+          <div class="hero-steps" aria-label="앱 사용 순서">
+            <span>1. 누르기</span>
+            <span>2. 말하기</span>
+            <span>3. 확인하기</span>
+            <span>4. 다시 듣기</span>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <img
+            class="mascot mascot-bunny"
+            src="./assets/bunny-mic.svg"
+            alt=""
+            width="320"
+            height="320"
+          />
+          <div class="bubble bubble-top">안녕!</div>
+          <div class="bubble bubble-middle">또박또박</div>
+          <div class="bubble bubble-bottom">말해볼까?</div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="recognition-panel" aria-labelledby="recognition-title">
+          <div class="panel-top">
+            <div>
+              <p class="panel-label">음성놀이</p>
+              <h2 id="recognition-title">말을 들으면 한글로 적어줘요</h2>
+            </div>
+
+            <div class="mode-switch" role="tablist" aria-label="말하기 모드">
+              <button class="mode-button active" data-mode="word" type="button">단어 놀이</button>
+              <button class="mode-button" data-mode="sentence" type="button">문장 놀이</button>
+            </div>
+          </div>
+
+          <div class="listening-stage">
+            <div class="prompt-board">
+              <p class="prompt-chip" id="promptChip">예시: 토끼, 바나나, 무지개</p>
+              <button
+                class="record-button"
+                id="recordButton"
+                type="button"
+                aria-pressed="false"
+                aria-describedby="statusText"
+              >
+                <span class="record-button-inner">
+                  <span class="record-icon" aria-hidden="true"></span>
+                  <span class="record-text">말 시작</span>
+                </span>
+              </button>
+              <p class="status-text" id="statusText">준비됐어요. 버튼을 누르고 또박또박 말해보세요.</p>
+
+              <div class="wave" id="wave" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <div class="transcript-stage">
+              <div class="transcript-header">
+                <div>
+                  <p class="panel-label">인식 결과</p>
+                  <h3>내가 말한 한글</h3>
+                </div>
+
+                <button
+                  class="speak-button"
+                  id="speakButton"
+                  type="button"
+                  aria-label="문장 읽어주기"
+                  disabled
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M5 14h3.2l4.8 4.4V5.6L8.2 10H5a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M16.5 8.5a1 1 0 0 1 1.4 0 5 5 0 0 1 0 7 1 1 0 0 1-1.4-1.4 3 3 0 0 0 0-4.2 1 1 0 0 1 0-1.4Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M18.9 5.9a1 1 0 0 1 1.4 0 8.8 8.8 0 0 1 0 12.2 1 1 0 1 1-1.4-1.4 6.8 6.8 0 0 0 0-9.4 1 1 0 0 1 0-1.4Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <div class="transcript-output empty" id="transcriptOutput">
+                여기에 들은 말이 나타나요.
+              </div>
+              <p class="live-preview" id="livePreview">단어 한 개도 좋고, 짧은 문장도 좋아요.</p>
+              <p class="voice-status" id="voiceStatus">AI 목소리: 설정을 확인하는 중이에요.</p>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <button class="ghost-button" id="retryButton" type="button">다시 듣기</button>
+            <button class="ghost-button" id="clearButton" type="button">지우기</button>
+          </div>
+
+          <section class="history-panel" aria-labelledby="history-title">
+            <div class="history-header">
+              <div>
+                <p class="panel-label">말한 기록</p>
+                <h3 id="history-title">아이 말 기록장</h3>
+              </div>
+              <button class="ghost-button history-clear-button" id="clearHistoryButton" type="button">
+                기록 지우기
+              </button>
+            </div>
+            <p class="history-helper">가장 최근에 말한 내용이 맨 위에 차곡차곡 쌓여요.</p>
+            <div class="history-empty" id="historyEmptyState">아직 저장된 말 기록이 없어요.</div>
+            <ul class="history-list" id="historyList" aria-live="polite"></ul>
+          </section>
+        </section>
+
+        <aside class="companion-panel">
+          <div class="companion-art">
+            <img src="./assets/bear-speaker.svg" alt="문장을 읽어주는 곰 친구" width="280" height="280" />
+          </div>
+
+          <section class="tips">
+            <p class="panel-label">아이 사용 순서</p>
+            <h2>화면에서 이렇게 진행돼요</h2>
+            <ol>
+              <li>큰 마이크 버튼을 눌러요.</li>
+              <li>단어 또는 문장을 천천히 말해요.</li>
+              <li>화면에 나온 한글 문장을 확인해요.</li>
+              <li>옆의 소리 버튼을 눌러 다시 들어요.</li>
+            </ol>
+          </section>
+
+          <section class="teacher-note">
+            <p class="panel-label">선생님 메모</p>
+            <h2>프로토타입 안내</h2>
+            <p>
+              이 버전은 서버형 AI 음성인식과 AI 읽어주기를 붙인 버전이에요. 유치원 운영용으로는
+              아이들 발화 로그, 자주 쓰는 단어 사전, 학급별 설정까지 이어서 붙이면 더 안정적으로
+              사용할 수 있어요.
+            </p>
+            <p>읽어주는 목소리는 AI로 생성된 음성이에요.</p>
+          </section>
+        </aside>
+      </main>
+    </div>
+  </body>
+</html>
