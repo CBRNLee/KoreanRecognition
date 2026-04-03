@@ -1,0 +1,17 @@
+{
+  "name": "말랑말랑 한글 친구",
+  "short_name": "한글 친구",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff9ef",
+  "theme_color": "#fff5e8",
+  "lang": "ko-KR",
+  "icons": [
+    {
+      "src": "./assets/bunny-mic.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

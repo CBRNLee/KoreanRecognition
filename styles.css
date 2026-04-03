@@ -27,6 +27,10 @@ body {
   min-height: 100%;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   background:
     radial-gradient(circle at top left, rgba(255, 206, 120, 0.45), transparent 28%),
@@ -34,10 +38,12 @@ body {
     linear-gradient(180deg, #fffdf8 0%, var(--bg) 38%, #fff5e8 100%);
   color: var(--ink);
   font-family: var(--body-font);
+  -webkit-tap-highlight-color: transparent;
 }
 
 button {
   font: inherit;
+  touch-action: manipulation;
 }
 
 button:disabled {
@@ -74,7 +80,10 @@ button:disabled {
   z-index: 1;
   width: min(1200px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 28px 0 48px;
+  padding:
+    calc(28px + env(safe-area-inset-top))
+    0
+    calc(48px + env(safe-area-inset-bottom));
 }
 
 .hero {
@@ -503,6 +512,13 @@ button:disabled {
 .voice-status {
   margin: -6px 0 0;
   font-size: 0.95rem;
+}
+
+.device-tip {
+  margin: 6px 0 0;
+  color: #6c7d7e;
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
 .speak-button {

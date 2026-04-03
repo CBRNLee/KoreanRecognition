@@ -2,12 +2,18 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#fff5e8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>말랑말랑 한글 친구</title>
     <meta
       name="description"
       content="유치원생도 쉽게 사용할 수 있는 귀여운 한글 음성인식 웹앱 프로토타입"
     />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="icon" href="./assets/bunny-mic.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
     <script defer src="./app.js"></script>
   </head>
@@ -122,6 +128,7 @@
               </div>
               <p class="live-preview" id="livePreview">단어 한 개도 좋고, 짧은 문장도 좋아요.</p>
               <p class="voice-status" id="voiceStatus">AI 목소리: 설정을 확인하는 중이에요.</p>
+              <p class="device-tip" id="deviceTip">휴대폰에서는 마이크 권한을 허용한 뒤 사용하면 돼요.</p>
             </div>
           </div>
 

@@ -8,11 +8,18 @@ const statusText = document.getElementById("statusText");
 const transcriptOutput = document.getElementById("transcriptOutput");
 const livePreview = document.getElementById("livePreview");
 const voiceStatus = document.getElementById("voiceStatus");
+const deviceTip = document.getElementById("deviceTip");
 const wave = document.getElementById("wave");
 const historyList = document.getElementById("historyList");
 const historyEmptyState = document.getElementById("historyEmptyState");
 const clearHistoryButton = document.getElementById("clearHistoryButton");
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+const USER_AGENT = navigator.userAgent || "";
+const IS_IOS =
+  /iPad|iPhone|iPod/.test(USER_AGENT) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const IS_ANDROID = /Android/i.test(USER_AGENT);
+const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(USER_AGENT) || navigator.maxTouchPoints > 1;
 const HISTORY_STORAGE_KEY = "malrang-speech-history-v1";
 const HISTORY_LIMIT = 40;
 const IS_GITHUB_PAGES = window.location.hostname.endsWith("github.io");
@@ -190,6 +197,35 @@ function updateRecordingState(recording) {
   recordButton.querySelector(".record-text").textContent = recording ? "듣기 끝" : "말 시작";
   wave.classList.toggle("is-active", recording);
   updateControlAvailability();
+}
+
+function updateDeviceTip() {
+  if (!deviceTip) {
+    return;
+  }
+
+  if (!IS_MOBILE) {
+    deviceTip.textContent = "컴퓨터와 휴대폰에서 모두 열 수 있어요. 휴대폰은 마이크 권한 허용이 먼저예요.";
+    return;
+  }
+
+  if (serverConfig.hasOpenAIKey) {
+    deviceTip.textContent = IS_IOS
+      ? "아이폰에서는 마이크 권한을 허용하면 사용할 수 있어요. 더 안정적인 건 서버형 AI 모드예요."
+      : "안드로이드 휴대폰에서는 마이크 권한을 허용하면 바로 사용할 수 있어요.";
+    return;
+  }
+
+  if (SpeechRecognition) {
+    deviceTip.textContent = IS_ANDROID
+      ? "무료 모드는 안드로이드 Chrome이나 Edge에서 가장 잘 동작해요."
+      : "무료 모드는 휴대폰 브라우저 지원 차이가 커요. 안 되면 서버형 AI 모드가 더 안정적이에요.";
+    return;
+  }
+
+  deviceTip.textContent = IS_IOS
+    ? "아이폰 무료 모드는 기본 음성인식 지원이 제한될 수 있어요. 휴대폰에서 안정적으로 쓰려면 서버형 AI 배포가 좋아요."
+    : "이 휴대폰 브라우저는 무료 기본 음성인식을 지원하지 않을 수 있어요. Chrome이나 Edge를 추천해요.";
 }
 
 function updateControlAvailability() {
@@ -389,6 +425,7 @@ async function loadServerConfig() {
     livePreview.textContent = SpeechRecognition
       ? "AI 서버 없이도 기본 음성인식과 기록장 기능을 쓸 수 있어요."
       : "GitHub Pages에서는 AI 서버 없이 동작하므로 지원 브라우저가 필요해요.";
+    updateDeviceTip();
     updateControlAvailability();
     return;
   }
@@ -430,6 +467,7 @@ async function loadServerConfig() {
       : "서버가 켜지면 다시 새로고침해보세요.";
   }
 
+  updateDeviceTip();
   updateControlAvailability();
 }
 
